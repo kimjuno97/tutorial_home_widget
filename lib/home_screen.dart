@@ -7,7 +7,7 @@ import 'news_data.dart';
 // New: Add these constants
 // TO DO: Replace with your App Group ID
 // const String appGroupId = '<YOUR APP GROUP>';
-const String iOSWidgetName = 'NewsWidgets';
+// const String iOSWidgetName = 'NewsWidgets';
 const String androidWidgetName = 'NewsWidget';
 
 // Widget 통신함수
@@ -17,7 +17,7 @@ void updateHeadline(NewsArticle newHeadline) {
   HomeWidget.saveWidgetData<String>(
       'headline_description', newHeadline.description);
   HomeWidget.updateWidget(
-    iOSName: iOSWidgetName,
+    // iOSName: iOSWidgetName,
     androidName: androidWidgetName,
   );
 }
