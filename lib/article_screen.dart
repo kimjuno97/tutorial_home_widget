@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:home_widget/home_widget.dart';
 import 'home_screen.dart';
 import 'news_data.dart';
 
@@ -15,6 +16,9 @@ class ArticleScreen extends StatefulWidget {
 }
 
 class _ArticleScreenState extends State<ArticleScreen> {
+  final _globalKey = GlobalKey();
+  String? imagePath;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -31,6 +35,22 @@ class _ArticleScreenState extends State<ArticleScreen> {
             ),
           );
 
+          /// Home Widget에 이미지 그리기
+          if (_globalKey.currentContext != null) {
+            var path = await HomeWidget.renderFlutterWidget(
+              const LineChart(),
+              key: 'filename',
+              logicalSize: _globalKey.currentContext!.size!,
+              pixelRatio:
+                  MediaQuery.of(_globalKey.currentContext!).devicePixelRatio,
+            );
+            setState(() {
+              print(_globalKey.currentContext!.size!);
+              print(MediaQuery.of(_globalKey.currentContext!).devicePixelRatio);
+              imagePath = path as String?;
+            });
+          }
+
           // Home Widget 업데이트
           updateHeadline(widget.article);
         },
@@ -46,7 +66,11 @@ class _ArticleScreenState extends State<ArticleScreen> {
           const SizedBox(height: 20.0),
           Text(widget.article.articleText!),
           const SizedBox(height: 20.0),
-          const Center(child: LineChart()),
+          Center(
+            // globalKey 지정
+            key: _globalKey,
+            child: const LineChart(),
+          ),
           const SizedBox(height: 20.0),
           Text(widget.article.articleText!),
         ],
