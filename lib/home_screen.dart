@@ -1,7 +1,26 @@
 import 'package:flutter/material.dart';
+import 'package:home_widget/home_widget.dart';
 
 import 'article_screen.dart';
 import 'news_data.dart';
+
+// New: Add these constants
+// TO DO: Replace with your App Group ID
+// const String appGroupId = '<YOUR APP GROUP>';
+const String iOSWidgetName = 'NewsWidgets';
+const String androidWidgetName = 'NewsWidget';
+
+// Widget 통신함수
+void updateHeadline(NewsArticle newHeadline) {
+  // Save the headline data to the widget
+  HomeWidget.saveWidgetData<String>('headline_title', newHeadline.title);
+  HomeWidget.saveWidgetData<String>(
+      'headline_description', newHeadline.description);
+  HomeWidget.updateWidget(
+    iOSName: iOSWidgetName,
+    androidName: androidWidgetName,
+  );
+}
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key});
@@ -10,6 +29,18 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  @override
+  void initState() {
+    super.initState();
+
+    // Set the group ID
+    // HomeWidget.setAppGroupId(appGroupId);
+
+    // 0번 인덱스 데이터 보내기
+    final newHeadline = getNewsStories()[0];
+    updateHeadline(newHeadline);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
